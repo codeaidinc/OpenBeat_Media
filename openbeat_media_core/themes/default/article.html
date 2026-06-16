@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}{{ a.title }} — {{ site.title }}{% endblock %}
+{% block content %}
+<article class="post">
+  {% if a.beat %}<div class="kicker">{{ (site.beat_labels or {}).get(a.beat) or (a.beat | replace('-', ' ') | title) }}</div>{% endif %}
+  <h1>{{ a.title }}</h1>
+  <div class="byline post-byline">
+    <span>{{ a.author or ui.editorial }}<span class="dot">・</span>{{ a.published_at[:10] }}{% if a.sources %}<span class="dot">・</span>{{ ui.src_pre }}{{ a.sources | length }}{{ ui.src_post }}{% endif %}</span>
+    {% if lang_switch %}{% for l in lang_switch %}{% if not l.current and l.url.endswith('.html') %}<a class="readalt" href="{{ l.url }}">{{ l.label }} ↗</a>{% endif %}{% endfor %}{% endif %}
+  </div>
+
+  {% if a.summary %}<p class="standfirst">{{ a.summary }}</p>{% endif %}
+
+  <div class="prose">{{ a.body_html | safe }}</div>
+
+  {% if a.tags %}<div class="tags">{% for t in a.tags %}<span class="tag">#{{ t }}</span>{% endfor %}</div>{% endif %}
+
+  {% if a.sources %}
+  <aside class="sources">
+    <div class="sources-h">{{ ui.sources_h }}</div>
+    <ol>{% for s in a.sources %}<li><a href="{{ s }}" rel="noopener">{{ s }}</a></li>{% endfor %}</ol>
+  </aside>
+  {% endif %}
+
+  {% if related %}
+  <section class="related">
+    <h3>{{ ui.related }}</h3>
+    <ul>{% for r in related %}<li><a href="{{ base }}/article/{{ r.slug }}.html">{{ r.title }}</a><span class="r-date">{{ r.published_at[:10] }}</span></li>{% endfor %}</ul>
+  </section>
+  {% endif %}
+
+  <p class="backlink"><a href="{{ base }}/">{{ ui.back_pre }}{{ site.title }}{{ ui.back_post }}</a></p>
+</article>
+{% endblock %}

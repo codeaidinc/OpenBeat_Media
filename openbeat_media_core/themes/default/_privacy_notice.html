@@ -1,0 +1,16 @@
+{#
+  Optional privacy / cookie notice. OFF BY DEFAULT — the generated site is tracker-free.
+  Enable only if the operator adds external services (analytics / fonts / embeds / forms)
+  by setting site.json "privacy_notice": true (and optionally "privacy_url").
+#}
+{% if site.privacy_notice %}
+<aside class="privacy-notice" role="note" style="font-size:.8rem; color:#555; background:#fafafa; border-top:1px solid #eee; padding:10px 14px; margin-top:24px;">
+  {% if ui.lang == 'ja' %}
+    このサイトは外部サービス（解析・フォント・埋め込み等）を利用する場合があり、Cookie や個人データを処理することがあります。詳しくは
+    {% if site.privacy_url %}<a href="{{ site.privacy_url }}">プライバシーポリシー</a>{% else %}プライバシーポリシー{% endif %}をご確認ください。
+  {% else %}
+    This site may use external services (analytics, fonts, embeds) that can set cookies or process personal data. See our
+    {% if site.privacy_url %}<a href="{{ site.privacy_url }}">privacy policy</a>{% else %}privacy policy{% endif %}.
+  {% endif %}
+</aside>
+{% endif %}

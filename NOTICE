@@ -1,0 +1,30 @@
+OpenBeat Media
+Copyright 2026 合同会社CODEAID (CODEAID LLC) / OpenBeat contributors
+
+This product includes software developed by 合同会社CODEAID and the
+OpenBeat contributors.
+
+Licensed under the Apache License, Version 2.0 (the "License").
+You may obtain a copy of the License at:
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+
+----------------------------------------------------------------------
+Third-party components
+----------------------------------------------------------------------
+This software depends on the following third-party open source
+packages (see compliance/SBOM.md for details and licenses):
+
+  - Flask        (BSD-3-Clause)
+  - Jinja2       (BSD-3-Clause)
+  - MarkupSafe   (BSD-3-Clause)   [Flask/Jinja2 dependency]
+  - Werkzeug     (BSD-3-Clause)   [Flask dependency]
+  - markdown     (BSD-3-Clause)   [optional, for Markdown rendering]
+  - pytest       (MIT)            [development/testing only]
+
+Each package is the property of its respective authors and is used
+under its own license. This NOTICE file does not modify those licenses.

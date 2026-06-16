@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ t.edit_article }} — {{ t.studio_title }}</title>
+<style>
+ body{font-family:system-ui,"Hiragino Sans",sans-serif;max-width:780px;margin:0 auto;padding:0 16px 48px;color:#1a1a1a}
+ h1{color:#0b5;font-size:1.2rem}
+ label{display:block;margin:12px 0 4px;font-size:.9rem;font-weight:600}
+ input,textarea{width:100%;box-sizing:border-box;padding:8px;border:1px solid #ccc;border-radius:6px;font-size:.95rem}
+ textarea{min-height:240px;font-family:ui-monospace,monospace}
+ .btn{background:#0b5;color:#fff;border:none;border-radius:6px;padding:9px 18px;cursor:pointer;font-size:.95rem}
+ .meta{color:#777;font-size:.82rem} a{color:#46c}
+ .flash{background:#fdeeee;border-left:3px solid #c33;padding:8px 12px;margin:10px 0;font-size:.9rem}
+</style></head>
+<body>
+<p><a href="/">{{ t.back_to_list }}</a></p>
+{% with messages = get_flashed_messages() %}{% for m in messages %}<div class="flash">{{ m }}</div>{% endfor %}{% endwith %}
+<h1>{{ t.edit_article if a else t.new_article }}</h1>
+<form method="post" action="/save">
+  <label>{{ t.f_title }}</label>
+  <input name="title" value="{{ a.title if a else '' }}" required>
+  <label>{{ t.f_summary }}</label>
+  <input name="summary" value="{{ a.summary if a else '' }}">
+  <label>{{ t.f_beat }}</label>
+  <input name="beat" value="{{ a.beat if a else '' }}">
+  <label>{{ t.f_tags }}</label>
+  <input name="tags" value="{{ a.tags|join(', ') if a else '' }}">
+  <label>{{ t.f_author }}</label>
+  <input name="author" value="{{ a.author if a else '' }}">
+  <label>{{ t.f_sources }}</label>
+  <textarea name="sources" style="min-height:70px">{{ a.sources|join('\n') if a else '' }}</textarea>
+  <label>{{ t.f_published }}</label>
+  <input name="published_at" value="{{ a.published_at if a else '' }}">
+  <label>{{ t.f_body }}</label>
+  <textarea name="body_md">{{ a.body_md if a else '' }}</textarea>
+  {% if a %}<input type="hidden" name="slug" value="{{ a.slug }}">{% endif %}
+  <p class="meta">{{ t.source_note }}</p>
+  <button class="btn" type="submit">{{ t.save }}</button>
+</form>
+</body></html>

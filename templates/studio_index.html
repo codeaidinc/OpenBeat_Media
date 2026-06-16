@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ t.studio_title }}</title>
+<style>
+ body{font-family:system-ui,"Hiragino Sans",sans-serif;max-width:780px;margin:0 auto;padding:0 16px 48px;color:#1a1a1a}
+ header{border-bottom:2px solid #0b5;padding:14px 0;margin-bottom:16px}
+ h1{color:#0b5;font-size:1.3rem;margin:0}
+ .btn{display:inline-block;background:#0b5;color:#fff;border:none;border-radius:6px;padding:8px 16px;text-decoration:none;cursor:pointer;font-size:.92rem}
+ .btn.sec{background:#46c}.btn.del{background:#c33}
+ .row{display:flex;gap:8px;align-items:center;margin:14px 0}
+ .card{border:1px solid #e3e3e3;border-radius:8px;padding:12px 14px;margin:10px 0}
+ .meta{color:#777;font-size:.82rem}
+ .flash{background:#eef9f0;border-left:3px solid #0b5;padding:8px 12px;margin:10px 0;font-size:.9rem}
+ .hint{background:#fffdf5;border:1px dashed #b80;border-radius:8px;padding:12px;margin:14px 0;font-size:.88rem}
+</style></head>
+<body>
+<header><h1>{{ t.studio_title }}</h1></header>
+{% with messages = get_flashed_messages() %}{% for m in messages %}<div class="flash">{{ m }}</div>{% endfor %}{% endwith %}
+<div class="row">
+  <a class="btn" href="{{ url_for('new') }}">{{ t.new_article }}</a>
+  <form method="post" action="{{ url_for('build') }}" style="display:inline"><button class="btn sec" type="submit">{{ t.build_site }}</button></form>
+  <a class="btn sec" href="{{ url_for('preview') }}" target="_blank">{{ t.preview }}</a>
+</div>
+<div class="hint">{{ t.hint }}<br><code>{{ output_dir }}</code><br>{{ t.hint2 }}</div>
+{% for a in articles %}
+  <div class="card">
+    <strong>{{ a.title }}</strong>
+    <div class="meta">{{ a.slug }}{% if a.beat %}・{{ a.beat }}{% endif %}・{{ a.published_at[:10] }}・{{ a.sources|length }} {{ t.sources_unit }}</div>
+    <div class="row">
+      <a class="btn sec" href="{{ url_for('edit', slug=a.slug) }}">{{ t.edit }}</a>
+      <form method="post" action="{{ url_for('delete', slug=a.slug) }}" onsubmit="return confirm('{{ t.confirm_delete }}')" style="display:inline"><button class="btn del" type="submit">{{ t.delete }}</button></form>
+    </div>
+  </div>
+{% else %}
+  <p class="meta">{{ t.no_articles }}</p>
+{% endfor %}
+</body></html>

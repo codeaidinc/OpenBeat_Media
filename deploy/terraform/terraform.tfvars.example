@@ -1,0 +1,13 @@
+# Copy to terraform.tfvars and fill in. terraform.tfvars is gitignored.
+account_id = "your-cloudflare-account-id"
+
+# Optional overrides:
+# worker_name        = "middle-east-watch"
+# assets_dir         = "../../output"
+# enable_workers_dev = true
+# not_found_handling = "404-page"
+
+# --- Custom domain (optional; leave commented to use only workers.dev) ---
+# custom_domain = "watch.example.com"
+# zone_id       = "your-zone-id"
+# zone_name     = "example.com"

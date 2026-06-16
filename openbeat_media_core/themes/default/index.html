@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% macro blabel(b) -%}
+{{ (site.beat_labels or {}).get(b) or (b | replace('-', ' ') | title) }}
+{%- endmacro %}
+
+{% block nav %}
+{% if beats %}
+<nav class="beatnav"><div class="beatnav-in">
+  <a href="#top">{{ ui.latest }}</a>
+  {% for b in beats %}<a href="#sec-{{ b }}">{{ blabel(b) }}</a>{% endfor %}
+</div></nav>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<a id="top"></a>
+{% if site.hero %}<img class="hero" src="{{ site.hero }}" alt="">{% endif %}
+
+{% if articles %}
+  {% set lead = articles[0] %}
+  <article class="lead">
+    {% if lead.beat %}<a class="kicker" href="#sec-{{ lead.beat }}">{{ blabel(lead.beat) }}</a>{% endif %}
+    <h2 class="lead-title"><a href="{{ base }}/article/{{ lead.slug }}.html">{{ lead.title }}</a></h2>
+    <p class="lead-teaser">{{ lead.teaser }}</p>
+    <div class="byline">{{ lead.author or ui.editorial }}<span class="dot">・</span>{{ lead.published_at[:10] }}{% if lead.sources %}<span class="dot">・</span>{{ ui.src_pre }}{{ lead.sources | length }}{{ ui.src_post }}{% endif %}</div>
+  </article>
+
+  {% set rest = articles[1:5] %}
+  {% if rest %}
+  <div class="grid">
+    {% for a in rest %}
+    <article class="card">
+      {% if a.beat %}<a class="kicker" href="#sec-{{ a.beat }}">{{ blabel(a.beat) }}</a>{% endif %}
+      <h3><a href="{{ base }}/article/{{ a.slug }}.html">{{ a.title }}</a></h3>
+      <div class="byline">{{ a.published_at[:10] }}</div>
+      <p>{{ a.teaser }}</p>
+    </article>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  {% for b in beats %}
+    {% set items = articles | selectattr('beat', 'equalto', b) | list %}
+    {% if items %}
+    <section class="beatsec" id="sec-{{ b }}">
+      <h2 class="sectitle">{{ blabel(b) }} <span class="count">{{ items | length }}{{ ui.sec_post }}</span></h2>
+      <div class="seclist">
+        {% for a in items %}
+        <div class="item">
+          <div class="it-date">{{ a.published_at[:10] }}</div>
+          <div class="it-body">
+            <h4><a href="{{ base }}/article/{{ a.slug }}.html">{{ a.title }}</a></h4>
+            <p>{{ a.teaser }}</p>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+    {% endif %}
+  {% endfor %}
+
+  {% set nobeat = articles | rejectattr('beat') | list %}
+  {% if nobeat %}
+  <section class="beatsec" id="sec-other">
+    <h2 class="sectitle">{{ ui.other }} <span class="count">{{ nobeat | length }}{{ ui.sec_post }}</span></h2>
+    <div class="seclist">
+      {% for a in nobeat %}
+      <div class="item">
+        <div class="it-date">{{ a.published_at[:10] }}</div>
+        <div class="it-body">
+          <h4><a href="{{ base }}/article/{{ a.slug }}.html">{{ a.title }}</a></h4>
+          <p>{{ a.teaser }}</p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+
+{% else %}
+  <p class="empty">{{ ui.no_articles }}</p>
+{% endif %}
+{% endblock %}
