@@ -6,7 +6,7 @@ variable "account_id" {
 variable "worker_name" {
   type        = string
   description = "Worker (project) name. Becomes <worker_name>.<your-subdomain>.workers.dev."
-  default     = "middle-east-watch"
+  default     = "openbeat-media"
 
   validation {
     condition     = can(regex("^[a-z0-9][a-z0-9-]{0,62}$", var.worker_name))

@@ -2,7 +2,7 @@
 account_id = "your-cloudflare-account-id"
 
 # Optional overrides:
-# worker_name        = "middle-east-watch"
+# worker_name        = "openbeat-media"
 # assets_dir         = "../../output"
 # enable_workers_dev = true
 # not_found_handling = "404-page"
